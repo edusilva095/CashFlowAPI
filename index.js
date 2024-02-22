@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 app.post("/reset", (req, res) => {
     const resetData = [];
     writeData(resetData);
-    res.status(200).json("Ok");
+    res.status(200).json();
 })
 
 app.get("/balance/:account_id", (req, res) => {
