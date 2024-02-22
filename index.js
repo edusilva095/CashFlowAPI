@@ -24,7 +24,7 @@ app.get("/balance/:account_id", (req, res) => {
     const accountExists = dataJSON.find(account => account.id === req.params.account_id);
 
     if(accountExists){
-        res.status(201).json({ "balance": accountExists.balance });
+        res.status(200).json({ "balance": accountExists.balance });
     } else {
         res.status(404).json({ "message": "0" });
     }
