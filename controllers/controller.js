@@ -53,17 +53,17 @@ exports.event = (req, res) => {
 
         let originAccount = accounts.find(acc => acc.id === origin);
 
-        let destAccount = accounts.find(acc => acc.id === destination);
+        let destinationAccount = accounts.find(acc => acc.id === destination);
 
         switch (type) {
             case 'deposit':
-                if (!destAccount) {
-                    destAccount = { id: destination, balance: 0 };
-                    accounts.push(destAccount);
+                if (!destinationAccount) {
+                    destinationAccount = { id: destination, balance: 0 };
+                    accounts.push(destinationAccount);
                 }
-                destAccount.balance += amount;
+                destinationAccount.balance += amount;
                 writeFile(accounts);
-                res.status(201).json({ "destination": { "id": destAccount.id, "balance": destAccount.balance } });
+                res.status(201).json({ "destination": { "id": destinationAccount.id, "balance": destinationAccount.balance } });
                 break;
             case 'withdraw':
                 if (!originAccount || originAccount.balance < amount) {
@@ -75,14 +75,14 @@ exports.event = (req, res) => {
                 res.status(201).json({ "origin": { "id": originAccount.id, "balance": originAccount.balance } });
                 break;
             case 'transfer':
-                if (!originAccount || !destAccount || originAccount.balance < amount) {
+                if (!originAccount || !destinationAccount || originAccount.balance < amount) {
                     res.status(404).send("0");
                     return;
                 }
                 originAccount.balance -= amount;
-                destAccount.balance += amount;
+                destinationAccount.balance += amount;
                 writeFile(accounts);
-                res.status(201).json({"origin": {"id": originAccount.id, "balance": originAccount.balance}, "destination": {"id": destAccount.id, "balance": destAccount.balance}});
+                res.status(201).json({"origin": {"id": originAccount.id, "balance": originAccount.balance}, "destination": {"id": destinationAccount.id, "balance": destinationAccount.balance}});
                 break;
             default:
                 res.status(400).send("Invalid transaction type.");
