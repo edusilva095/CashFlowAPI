@@ -94,8 +94,8 @@ exports.event = (req, res) => {
 function writeFile(account) {
     fs.writeFile(dataFilePath, JSON.stringify({ accounts: account }), (err) => {
         if (err) {
-            console.error('Erro ao escrever os dados:', err);
-            res.status(500).send('Erro ao escrever os dados');
+            console.error("Error writing data", err);
+            res.status(500).send("Error writing data");
             return;
         }
     });
